@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.prothomalo.com)",
+      "WebFetch(domain:www.kalerkantho.com)",
+      "WebFetch(domain:www.jugantor.com)",
+      "WebSearch",
+      "WebFetch(domain:www.deshrupantor.com)",
+      "WebFetch(domain:webcache.googleusercontent.com)",
+      "WebFetch(domain:www.similarweb.com)",
+      "WebFetch(domain:www.shongjog.org.bd)",
+      "WebFetch(domain:stackshare.io)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:english.kalerkantho.com)",
+      "WebFetch(domain:play.google.com)",
+      "WebFetch(domain:www.allbanglanewspaperslist.com)",
+      "WebFetch(domain:mybanglanewspaper.com)",
+      "WebFetch(domain:bn.wikipedia.org)",
+      "WebFetch(domain:potrika24.com)",
+      "WebFetch(domain:web.archive.org)",
+      "WebFetch(domain:apps.apple.com)",
+      "WebFetch(domain:allonlinebanglanewspapers.com)",
+      "WebFetch(domain:www.facebook.com)",
+      "WebFetch(domain:muckrack.com)",
+      "Bash(npm -v)",
+      "Bash(npx --version)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --turbopack --use-npm --yes)"
+    ]
+  }
+}
