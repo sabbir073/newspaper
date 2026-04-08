@@ -28,7 +28,7 @@ function MediumCard({ article, cat }: { article: { id: string; slug: string; tit
           </Link>
         )}
         <Link href={`/news/${article.slug}`}>
-          <h3 className="text-[15px] leading-snug line-clamp-2 text-foreground group-hover:text-accent transition-colors">
+          <h3 className="text-[17px] leading-snug line-clamp-2 text-foreground group-hover:text-accent transition-colors">
             {article.title}
           </h3>
         </Link>
@@ -40,14 +40,14 @@ function MediumCard({ article, cat }: { article: { id: string; slug: string; tit
 export default function HeroSection() {
   const featured = getFeaturedNews();
   const latest = getLatestNews(1, 15).items;
-  const allNews = [...featured, ...latest.filter(n => !featured.find(f => f.id === n.id))].slice(0, 9);
+  const allNews = [...featured, ...latest.filter(n => !featured.find(f => f.id === n.id))].slice(0, 12);
   const categories = getAllCategories();
 
   if (allNews.length === 0) return null;
 
   const lead = allNews[0];
   const secondary = allNews.slice(1, 3);
-  const bottomCards = allNews.slice(3, 9);
+  const bottomCards = allNews.slice(3, 12);
 
   const leadCategory = categories.find(c => c.id === lead.categoryId);
 
@@ -169,11 +169,16 @@ export default function HeroSection() {
               </div>
             </article>
 
-            {/* 8 cards in 2-column grid */}
+            {/* cards in 2-column grid — last one hidden on mobile */}
             <div className="grid grid-cols-2 gap-3.5">
-              {[...secondary, ...bottomCards].map((article) => {
+              {[...secondary, ...bottomCards].map((article, idx, arr) => {
                 const cat = categories.find(c => c.id === article.categoryId);
-                return <MediumCard key={article.id} article={article} cat={cat} />;
+                const isLast = idx === arr.length - 1;
+                return (
+                  <div key={article.id} className={isLast ? 'hidden sm:block' : undefined}>
+                    <MediumCard article={article} cat={cat} />
+                  </div>
+                );
               })}
             </div>
           </div>
