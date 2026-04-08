@@ -24,7 +24,19 @@
       "WebFetch(domain:muckrack.com)",
       "Bash(npm -v)",
       "Bash(npx --version)",
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --turbopack --use-npm --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --turbopack --use-npm --yes)",
+      "Bash(npm install:*)",
+      "Bash(curl -s \"https://www.jugantor.com/\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\")",
+      "Bash(curl -s \"https://www.jugantor.com/\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\")",
+      "Bash(curl -s \"https://www.jugantor.com/assets/vendors/custom/custom.css?v=1.236\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\")",
+      "Bash(curl -s \"https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@100..900&display=swap\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\")",
+      "WebFetch(domain:www.theguardian.com)",
+      "WebFetch(domain:www.bbc.com)",
+      "WebFetch(domain:www.bbc.co.uk)",
+      "WebFetch(domain:www.nytimes.com)",
+      "WebFetch(domain:www.thedailystar.net)",
+      "WebFetch(domain:www.reuters.com)",
+      "WebFetch(domain:www.banglatribune.com)"
     ]
   }
 }

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "cat-1",
+    "slug": "national",
+    "name": "জাতীয়",
+    "nameEn": "National",
+    "description": "বাংলাদেশের জাতীয় পর্যায়ের সকল গুরুত্বপূর্ণ সংবাদ",
+    "color": "national",
+    "subcategories": [
+      { "id": "sub-1-1", "slug": "crime", "name": "অপরাধ" },
+      { "id": "sub-1-2", "slug": "capital", "name": "রাজধানী" },
+      { "id": "sub-1-3", "slug": "district", "name": "জেলা" },
+      { "id": "sub-1-4", "slug": "environment", "name": "পরিবেশ" }
+    ],
+    "order": 1
+  },
+  {
+    "id": "cat-2",
+    "slug": "politics",
+    "name": "রাজনীতি",
+    "nameEn": "Politics",
+    "description": "দেশের রাজনৈতিক সংবাদ, বিশ্লেষণ ও মতামত",
+    "color": "politics",
+    "subcategories": [
+      { "id": "sub-2-1", "slug": "parliament", "name": "সংসদ" },
+      { "id": "sub-2-2", "slug": "election", "name": "নির্বাচন" },
+      { "id": "sub-2-3", "slug": "party", "name": "দলীয়" }
+    ],
+    "order": 2
+  },
+  {
+    "id": "cat-3",
+    "slug": "international",
+    "name": "আন্তর্জাতিক",
+    "nameEn": "International",
+    "description": "বিশ্বের সকল গুরুত্বপূর্ণ আন্তর্জাতিক সংবাদ",
+    "color": "international",
+    "subcategories": [
+      { "id": "sub-3-1", "slug": "asia", "name": "এশিয়া" },
+      { "id": "sub-3-2", "slug": "europe", "name": "ইউরোপ" },
+      { "id": "sub-3-3", "slug": "americas", "name": "আমেরিকা" },
+      { "id": "sub-3-4", "slug": "middle-east", "name": "মধ্যপ্রাচ্য" }
+    ],
+    "order": 3
+  },
+  {
+    "id": "cat-4",
+    "slug": "sports",
+    "name": "খেলা",
+    "nameEn": "Sports",
+    "description": "ক্রিকেট, ফুটবল ও সকল খেলাধুলার সংবাদ",
+    "color": "sports",
+    "subcategories": [
+      { "id": "sub-4-1", "slug": "cricket", "name": "ক্রিকেট" },
+      { "id": "sub-4-2", "slug": "football", "name": "ফুটবল" },
+      { "id": "sub-4-3", "slug": "other-sports", "name": "অন্যান্য" }
+    ],
+    "order": 4
+  },
+  {
+    "id": "cat-5",
+    "slug": "entertainment",
+    "name": "বিনোদন",
+    "nameEn": "Entertainment",
+    "description": "চলচ্চিত্র, সংগীত, টেলিভিশন ও বিনোদন জগতের সংবাদ",
+    "color": "entertainment",
+    "subcategories": [
+      { "id": "sub-5-1", "slug": "movie", "name": "চলচ্চিত্র" },
+      { "id": "sub-5-2", "slug": "music", "name": "সংগীত" },
+      { "id": "sub-5-3", "slug": "tv", "name": "টেলিভিশন" },
+      { "id": "sub-5-4", "slug": "ott", "name": "ওটিটি" }
+    ],
+    "order": 5
+  },
+  {
+    "id": "cat-6",
+    "slug": "technology",
+    "name": "প্রযুক্তি",
+    "nameEn": "Technology",
+    "description": "প্রযুক্তি, বিজ্ঞান ও তথ্যপ্রযুক্তি জগতের সর্বশেষ খবর",
+    "color": "technology",
+    "subcategories": [
+      { "id": "sub-6-1", "slug": "gadgets", "name": "গ্যাজেট" },
+      { "id": "sub-6-2", "slug": "ai", "name": "কৃত্রিম বুদ্ধিমত্তা" },
+      { "id": "sub-6-3", "slug": "startups", "name": "স্টার্টআপ" }
+    ],
+    "order": 6
+  },
+  {
+    "id": "cat-7",
+    "slug": "opinion",
+    "name": "মতামত",
+    "nameEn": "Opinion",
+    "description": "সম্পাদকীয়, উপ-সম্পাদকীয় ও বিশেষজ্ঞদের মতামত",
+    "color": "opinion",
+    "subcategories": [
+      { "id": "sub-7-1", "slug": "editorial", "name": "সম্পাদকীয়" },
+      { "id": "sub-7-2", "slug": "column", "name": "কলাম" }
+    ],
+    "order": 7
+  },
+  {
+    "id": "cat-8",
+    "slug": "business",
+    "name": "ব্যবসা",
+    "nameEn": "Business",
+    "description": "ব্যবসা, বাণিজ্য, শেয়ারবাজার ও অর্থনীতির সংবাদ",
+    "color": "business",
+    "subcategories": [
+      { "id": "sub-8-1", "slug": "market", "name": "বাজার" },
+      { "id": "sub-8-2", "slug": "banking", "name": "ব্যাংকিং" },
+      { "id": "sub-8-3", "slug": "corporate", "name": "কর্পোরেট" }
+    ],
+    "order": 8
+  }
+]

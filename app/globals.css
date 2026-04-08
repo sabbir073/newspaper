@@ -2,25 +2,154 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --background-secondary: #f8fafc;
+  --background-tertiary: #f1f5f9;
+  --foreground: #0f172a;
+  --foreground-secondary: #334155;
+  --foreground-muted: #64748b;
+
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --card: #ffffff;
+  --card-hover: #f8fafc;
+
+  --nav-bg: #0f172a;
+  --nav-text: #f8fafc;
+
+  --breaking-bg: #dc2626;
+  --breaking-text: #ffffff;
+
+  --accent: #dc2626;
+  --accent-hover: #b91c1c;
+
+  --cat-national: #dc2626;
+  --cat-politics: #ea580c;
+  --cat-international: #2563eb;
+  --cat-sports: #16a34a;
+  --cat-entertainment: #db2777;
+  --cat-technology: #7c3aed;
+  --cat-opinion: #d97706;
+  --cat-business: #0d9488;
+}
+
+.dark {
+  --background: #0b1120;
+  --background-secondary: #111827;
+  --background-tertiary: #1e293b;
+  --foreground: #f1f5f9;
+  --foreground-secondary: #cbd5e1;
+  --foreground-muted: #94a3b8;
+
+  --border: #1e293b;
+  --border-strong: #334155;
+
+  --card: #111827;
+  --card-hover: #1e293b;
+
+  --nav-bg: #020617;
+  --nav-text: #f8fafc;
+
+  --breaking-bg: #991b1b;
+  --breaking-text: #fecaca;
+
+  --accent: #ef4444;
+  --accent-hover: #dc2626;
+
+  --cat-national: #ef4444;
+  --cat-politics: #f97316;
+  --cat-international: #3b82f6;
+  --cat-sports: #22c55e;
+  --cat-entertainment: #ec4899;
+  --cat-technology: #8b5cf6;
+  --cat-opinion: #f59e0b;
+  --cat-business: #14b8a6;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-text: var(--nav-text);
+  --color-breaking-bg: var(--breaking-bg);
+  --color-breaking-text: var(--breaking-text);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-cat-national: var(--cat-national);
+  --color-cat-politics: var(--cat-politics);
+  --color-cat-international: var(--cat-international);
+  --color-cat-sports: var(--cat-sports);
+  --color-cat-entertainment: var(--cat-entertainment);
+  --color-cat-technology: var(--cat-technology);
+  --color-cat-opinion: var(--cat-opinion);
+  --color-cat-business: var(--cat-business);
+  --font-bangla: var(--font-noto-serif-bengali);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    font-family: var(--font-noto-serif-bengali), sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.7;
+  }
+
+  * {
+    border-color: var(--border);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-ticker {
+  animation: ticker-scroll 60s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+.animate-blink {
+  animation: blink 1s ease-in-out infinite;
+}
+
+.line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+.prose-bangla {
+  font-size: 1.0625rem;
+  line-height: 1.9;
+}
+.prose-bangla p { margin-bottom: 1.25em; }
+.prose-bangla h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2em; margin-bottom: 0.75em; }
+.prose-bangla h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5em; margin-bottom: 0.5em; }
+.prose-bangla blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--foreground-secondary);
+  margin: 1.5em 0;
+}
+.prose-bangla ul, .prose-bangla ol { padding-left: 1.5em; margin-bottom: 1.25em; }
+.prose-bangla li { margin-bottom: 0.25em; }

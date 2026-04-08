@@ -1,0 +1,44 @@
+[
+  {
+    "id": "author-1",
+    "name": "রাহুল হাসান",
+    "avatar": "/images/news/placeholder.jpg",
+    "bio": "জ্যেষ্ঠ প্রতিবেদক, দৈনিক প্রতিদিন। সাংবাদিকতায় ১৫ বছরের অভিজ্ঞতা।",
+    "role": "জ্যেষ্ঠ প্রতিবেদক"
+  },
+  {
+    "id": "author-2",
+    "name": "ফাতেমা খানম",
+    "avatar": "/images/news/placeholder.jpg",
+    "bio": "আন্তর্জাতিক বিভাগের প্রধান সংবাদদাতা।",
+    "role": "আন্তর্জাতিক সংবাদদাতা"
+  },
+  {
+    "id": "author-3",
+    "name": "মোহাম্মদ আলী",
+    "avatar": "/images/news/placeholder.jpg",
+    "bio": "খেলাধুলা বিভাগের বিশেষ সংবাদদাতা।",
+    "role": "ক্রীড়া সংবাদদাতা"
+  },
+  {
+    "id": "author-4",
+    "name": "সুমাইয়া আক্তার",
+    "avatar": "/images/news/placeholder.jpg",
+    "bio": "বিনোদন ও জীবনযাপন বিভাগের প্রতিবেদক।",
+    "role": "বিনোদন প্রতিবেদক"
+  },
+  {
+    "id": "author-5",
+    "name": "তানভীর আহমেদ",
+    "avatar": "/images/news/placeholder.jpg",
+    "bio": "প্রযুক্তি ও বিজ্ঞান বিভাগের সম্পাদক।",
+    "role": "প্রযুক্তি সম্পাদক"
+  },
+  {
+    "id": "author-6",
+    "name": "নাজমুল ইসলাম",
+    "avatar": "/images/news/placeholder.jpg",
+    "bio": "রাজনৈতিক বিশ্লেষক ও কলামিস্ট।",
+    "role": "বিশ্লেষক"
+  }
+]
