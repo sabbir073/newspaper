@@ -5,11 +5,12 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Breadcrumb from '@/components/ui/Breadcrumb';
-import TimeSince from '@/components/ui/TimeSince';
-import Sidebar from '@/components/sidebar/Sidebar';
 import NewsCardMedium from '@/components/news/NewsCardMedium';
+import ArticleBody from '@/components/news/ArticleBody';
+import ArticleToolbar from '@/components/news/ArticleToolbar';
+import LatestPopularTabs from '@/components/sidebar/LatestPopularTabs';
 import { getNewsBySlug, getAllCategories, getAuthorById, getRelatedNews, getAllNews } from '@/lib/data';
-import { formatBanglaDateShort, estimateReadTime } from '@/lib/bangla';
+import { formatBanglaDateShort, estimateReadTime, toBanglaDigits } from '@/lib/bangla';
 import { SITE_NAME } from '@/lib/constants';
 
 type Props = {
@@ -30,6 +31,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+function formatBanglaTime(dateStr: string): string {
+  const date = new Date(dateStr);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'অপরাহ্ণ' : 'পূর্বাহ্ণ';
+  const h12 = hours % 12 || 12;
+  return `${toBanglaDigits(h12)}:${toBanglaDigits(minutes.toString().padStart(2, '0'))} ${period}`;
+}
+
 export default async function SingleNewsPage({ params }: Props) {
   const { slug } = await params;
   const article = getNewsBySlug(slug);
@@ -38,70 +48,154 @@ export default async function SingleNewsPage({ params }: Props) {
   const categories = getAllCategories();
   const category = categories.find((c) => c.id === article.categoryId);
   const author = getAuthorById(article.authorId);
-  const related = getRelatedNews(article, 3);
+  const related = getRelatedNews(article, 6);
 
   return (
     <>
       <Header />
       <main className="flex-1">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <Breadcrumb items={[
-            ...(category ? [{ label: category.name, href: `/category/${category.slug}` }] : []),
-            { label: article.title },
-          ]} />
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <Breadcrumb
+            items={[
+              ...(category ? [{ label: category.name, href: `/category/${category.slug}` }] : []),
+              { label: article.title },
+            ]}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* ─── Main article ─── */}
             <article className="lg:col-span-8">
+              {/* Category badge */}
               {category && (
                 <Link
                   href={`/category/${category.slug}`}
-                  className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold text-white mb-3"
+                  className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white mb-4"
                   style={{ backgroundColor: `var(--cat-${category.slug})` }}
                 >
                   {category.name}
                 </Link>
               )}
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-snug mb-3">
+              {/* Title */}
+              <h1 className="text-2xl sm:text-3xl lg:text-[38px] font-bold leading-[1.3] mb-4 text-foreground">
                 {article.title}
               </h1>
 
-              <p className="text-lg text-foreground-secondary mb-4">{article.excerpt}</p>
+              {/* Excerpt */}
+              <p className="text-lg text-foreground-secondary leading-relaxed mb-5">
+                {article.excerpt}
+              </p>
 
-              <div className="flex flex-wrap items-center gap-3 text-sm text-foreground-muted mb-5 pb-5 border-b border-border">
-                {author && (
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-background-tertiary flex items-center justify-center text-xs font-bold text-foreground-muted">
-                      {author.name[0]}
+              {/* Meta info — two layouts: desktop single-row, mobile stacked */}
+              <div className="mb-5 pb-5 border-b border-border">
+                {/* DESKTOP (md+): single row, tools on the right */}
+                <div className="hidden md:flex items-center justify-between gap-x-4 gap-y-3">
+                  <div className="flex items-center gap-x-4 text-[15px] text-foreground-muted">
+                    {author && (
+                      <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 rounded-full bg-accent/10 text-accent flex items-center justify-center text-base font-bold">
+                          {author.name[0]}
+                        </div>
+                        <div className="leading-tight">
+                          <div className="font-semibold text-foreground text-[16px]">{author.name}</div>
+                          <div className="text-sm">{author.role}</div>
+                        </div>
+                      </div>
+                    )}
+
+                    <span className="h-10 w-px bg-border" aria-hidden="true" />
+
+                    <div className="flex flex-col leading-tight gap-1">
+                      <span className="flex items-center gap-1.5 text-[15px]">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>প্রকাশ: {formatBanglaDateShort(article.publishedAt)}, {formatBanglaTime(article.publishedAt)}</span>
+                      </span>
+                      {article.updatedAt && (
+                        <span className="flex items-center gap-1.5 text-[15px]">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                          <span>সর্বশেষ সংস্করণ: {formatBanglaDateShort(article.updatedAt)}, {formatBanglaTime(article.updatedAt)}</span>
+                        </span>
+                      )}
                     </div>
-                    <div>
-                      <span className="font-medium text-foreground">{author.name}</span>
-                      <span className="block text-xs">{author.role}</span>
-                    </div>
+
+                    <span className="h-10 w-px bg-border" aria-hidden="true" />
+
+                    <span className="flex items-center gap-1.5 text-[15px]">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {estimateReadTime(article.body)}
+                    </span>
                   </div>
-                )}
-                <span>·</span>
-                <span>{formatBanglaDateShort(article.publishedAt)}</span>
-                <span>·</span>
-                <span>{estimateReadTime(article.body)}</span>
-              </div>
 
-              {/* Share buttons */}
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-sm text-foreground-muted">শেয়ার:</span>
-                <button className="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity" aria-label="ফেসবুকে শেয়ার">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </button>
-                <button className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity" aria-label="টুইটারে শেয়ার">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </button>
-                <button className="w-8 h-8 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity" aria-label="হোয়াটসঅ্যাপে শেয়ার">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                </button>
+                  <ArticleToolbar
+                    title={article.title}
+                    subtitle={article.excerpt}
+                    body={article.body}
+                    compact
+                    toolsOnly
+                  />
+                </div>
+
+                {/* MOBILE (< md): author row | info row | tools row */}
+                <div className="md:hidden space-y-4">
+                  {/* Author row */}
+                  {author && (
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-12 h-12 shrink-0 rounded-full bg-accent/10 text-accent flex items-center justify-center text-lg font-bold">
+                        {author.name[0]}
+                      </div>
+                      <div className="leading-tight min-w-0">
+                        <div className="font-semibold text-foreground text-[17px] truncate">{author.name}</div>
+                        <div className="text-sm text-foreground-muted truncate">{author.role}</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Date + read time stack */}
+                  <div className="grid grid-cols-1 gap-2 text-[15px] text-foreground-muted">
+                    <span className="flex items-start gap-2">
+                      <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>প্রকাশ: {formatBanglaDateShort(article.publishedAt)}, {formatBanglaTime(article.publishedAt)}</span>
+                    </span>
+                    {article.updatedAt && (
+                      <span className="flex items-start gap-2">
+                        <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span>সর্বশেষ: {formatBanglaDateShort(article.updatedAt)}, {formatBanglaTime(article.updatedAt)}</span>
+                      </span>
+                    )}
+                    <span className="flex items-start gap-2">
+                      <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{estimateReadTime(article.body)}</span>
+                    </span>
+                  </div>
+
+                  {/* Tools row — full-width card */}
+                  <div className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-background-secondary border border-border">
+                    <span className="text-[15px] font-semibold text-foreground-secondary shrink-0">টুলস</span>
+                    <ArticleToolbar
+                      title={article.title}
+                      subtitle={article.excerpt}
+                      body={article.body}
+                      compact
+                      toolsOnly
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Featured image */}
-              <div className="relative aspect-video rounded-lg overflow-hidden mb-6">
+              <div className="relative aspect-video rounded-lg overflow-hidden mb-5">
                 <Image
                   src={article.featuredImage}
                   alt={article.title}
@@ -112,20 +206,18 @@ export default async function SingleNewsPage({ params }: Props) {
                 />
               </div>
 
-              {/* Article body */}
-              <div
-                className="prose-bangla text-foreground"
-                dangerouslySetInnerHTML={{ __html: article.body }}
-              />
+              {/* Article body with toolbars (top + bottom) */}
+              <ArticleBody title={article.title} body={article.body} />
 
               {/* Tags */}
               {article.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border">
+                <div className="flex flex-wrap items-center gap-2 mt-6 pt-6 border-t border-border">
+                  <span className="text-[16px] font-semibold text-foreground mr-1">ট্যাগ:</span>
                   {article.tags.map((tag) => (
                     <Link
                       key={tag}
                       href={`/search?q=${encodeURIComponent(tag)}`}
-                      className="px-3 py-1 text-xs rounded-full border border-border hover:bg-background-tertiary transition-colors"
+                      className="px-3.5 py-1.5 text-[15px] rounded-full border border-border hover:bg-accent hover:text-white hover:border-accent transition-colors"
                     >
                       {tag}
                     </Link>
@@ -133,30 +225,61 @@ export default async function SingleNewsPage({ params }: Props) {
                 </div>
               )}
 
+              {/* Comment section */}
+              <section className="mt-10 pt-6 border-t border-border">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-1 h-7 bg-accent rounded-full" />
+                  <h2 className="text-2xl font-bold">মন্তব্য করুন</h2>
+                </div>
+                <div className="rounded-xl border border-border bg-card p-5">
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 shrink-0 rounded-full bg-background-tertiary flex items-center justify-center text-foreground-muted">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <textarea
+                      placeholder="আপনার মন্তব্য লিখুন..."
+                      rows={3}
+                      className="flex-1 px-3 py-2.5 text-[15px] rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors resize-none"
+                    />
+                  </div>
+                  <div className="flex justify-end mt-3">
+                    <button
+                      type="button"
+                      className="px-5 py-2.5 bg-accent text-white text-[15px] font-semibold rounded-lg hover:bg-accent-hover transition-colors cursor-pointer"
+                    >
+                      মন্তব্য পোস্ট করুন
+                    </button>
+                  </div>
+                </div>
+                <p className="text-sm text-foreground-muted mt-3 text-center">
+                  মন্তব্য সিস্টেম শীঘ্রই সম্পূর্ণভাবে চালু হবে।
+                </p>
+              </section>
+
               {/* Related news */}
               {related.length > 0 && (
-                <div className="mt-10 pt-6 border-t border-border">
-                  <h2 className="text-xl font-bold mb-4">সম্পর্কিত সংবাদ</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <section className="mt-10 pt-6 border-t border-border">
+                  <div className="flex items-center gap-2 mb-5">
+                    <div className="w-1 h-6 bg-accent rounded-full" />
+                    <h2 className="text-xl font-bold">সম্পর্কিত সংবাদ</h2>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
                     {related.map((r) => (
                       <NewsCardMedium key={r.id} article={r} />
                     ))}
                   </div>
-                </div>
+                </section>
               )}
-
-              {/* Comment placeholder */}
-              <div className="mt-10 pt-6 border-t border-border">
-                <h2 className="text-xl font-bold mb-4">মন্তব্য করুন</h2>
-                <div className="bg-background-secondary rounded-lg p-6 text-center text-foreground-muted">
-                  <p className="text-sm">মন্তব্য সিস্টেম শীঘ্রই আসছে।</p>
-                </div>
-              </div>
             </article>
 
-            <div className="lg:col-span-4">
-              <Sidebar />
-            </div>
+            {/* ─── Sidebar: sticky until its end, tabs scroll internally ─── */}
+            <aside className="lg:col-span-4">
+              <div className="lg:sticky lg:top-20">
+                <LatestPopularTabs showMap={false} />
+              </div>
+            </aside>
           </div>
         </div>
       </main>

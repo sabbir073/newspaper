@@ -1,0 +1,74 @@
+[
+  {
+    "id": "video-1",
+    "title": "পদ্মা সেতুতে যাত্রীবাহী ট্রেনের প্রথম যাত্রা: সরাসরি প্রতিবেদন",
+    "youtubeId": "dQw4w9WgXcQ",
+    "thumbnail": "https://picsum.photos/seed/video1/800/450",
+    "publishedAt": "2026-04-14T18:00:00Z",
+    "duration": "৫:৩২"
+  },
+  {
+    "id": "video-2",
+    "title": "বৈশাখী মেলার বর্ণিল আয়োজন: বিশেষ প্রতিবেদন",
+    "youtubeId": "9bZkp7q19f0",
+    "thumbnail": "https://picsum.photos/seed/video2/800/450",
+    "publishedAt": "2026-04-14T15:30:00Z",
+    "duration": "৮:১৫"
+  },
+  {
+    "id": "video-3",
+    "title": "ক্রিকেট বিশ্বকাপ: বাংলাদেশের সেরা মুহূর্ত",
+    "youtubeId": "kJQP7kiw5Fk",
+    "thumbnail": "https://picsum.photos/seed/video3/800/450",
+    "publishedAt": "2026-04-13T20:00:00Z",
+    "duration": "১২:০৪"
+  },
+  {
+    "id": "video-4",
+    "title": "সুন্দরবনে রয়্যাল বেঙ্গল টাইগারের বিরল ভিডিও",
+    "youtubeId": "3JZ_D3ELwOQ",
+    "thumbnail": "https://picsum.photos/seed/video4/800/450",
+    "publishedAt": "2026-04-12T11:00:00Z",
+    "duration": "৪:৪৭"
+  },
+  {
+    "id": "video-5",
+    "title": "ঢাকা শহরে যানজট: সমাধানের পথ কোথায়?",
+    "youtubeId": "OPf0YbXqDm0",
+    "thumbnail": "https://picsum.photos/seed/video5/800/450",
+    "publishedAt": "2026-04-11T14:00:00Z",
+    "duration": "৬:২১"
+  },
+  {
+    "id": "video-6",
+    "title": "ডিজিটাল বাংলাদেশ থেকে স্মার্ট বাংলাদেশ: আজকের অগ্রগতি",
+    "youtubeId": "hT_nvWreIhg",
+    "thumbnail": "https://picsum.photos/seed/video6/800/450",
+    "publishedAt": "2026-04-10T09:00:00Z",
+    "duration": "৯:৫৮"
+  },
+  {
+    "id": "video-7",
+    "title": "রমজানে বাজার পরিস্থিতি: পণ্যের দাম নিয়ন্ত্রণে প্রশাসনের পদক্ষেপ",
+    "youtubeId": "RgKAFK5djSk",
+    "thumbnail": "https://picsum.photos/seed/video7/800/450",
+    "publishedAt": "2026-04-09T16:30:00Z",
+    "duration": "৭:৪২"
+  },
+  {
+    "id": "video-8",
+    "title": "হজ ফ্লাইট শুরু: হজযাত্রীদের প্রথম দিনের চিত্র",
+    "youtubeId": "e-ORhEE9VVg",
+    "thumbnail": "https://picsum.photos/seed/video8/800/450",
+    "publishedAt": "2026-04-08T13:00:00Z",
+    "duration": "৫:১৮"
+  },
+  {
+    "id": "video-9",
+    "title": "পহেলা বৈশাখে মঙ্গল শোভাযাত্রা: বর্ণিল আয়োজনের পুরো ভিডিও",
+    "youtubeId": "YQHsXMglC9A",
+    "thumbnail": "https://picsum.photos/seed/video9/800/450",
+    "publishedAt": "2026-04-07T10:00:00Z",
+    "duration": "১১:২৫"
+  }
+]

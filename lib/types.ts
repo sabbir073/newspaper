@@ -55,3 +55,21 @@ export interface SearchParams {
   dateTo?: string;
   page?: string;
 }
+
+export interface PhotoAlbum {
+  id: string;
+  slug: string;
+  title: string;
+  coverImage: string;
+  images: { url: string; caption?: string }[];
+  publishedAt: string;
+}
+
+export interface VideoPost {
+  id: string;
+  title: string;
+  youtubeId: string;
+  thumbnail: string;
+  publishedAt: string;
+  duration?: string;
+}

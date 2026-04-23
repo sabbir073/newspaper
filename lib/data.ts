@@ -1,11 +1,27 @@
 import newsData from '@/data/news.json';
 import categoriesData from '@/data/categories.json';
 import authorsData from '@/data/authors.json';
-import type { NewsArticle, Category, Author, PaginatedResult, SearchParams } from './types';
+import photoAlbumsData from '@/data/photo-albums.json';
+import videosData from '@/data/videos.json';
+import type { NewsArticle, Category, Author, PaginatedResult, SearchParams, PhotoAlbum, VideoPost } from './types';
 
 const news: NewsArticle[] = newsData as NewsArticle[];
 const categories: Category[] = categoriesData as Category[];
 const authors: Author[] = authorsData as Author[];
+const photoAlbums: PhotoAlbum[] = photoAlbumsData as PhotoAlbum[];
+const videos: VideoPost[] = videosData as VideoPost[];
+
+export function getAllPhotoAlbums(): PhotoAlbum[] {
+  return [...photoAlbums].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+}
+
+export function getPhotoAlbumBySlug(slug: string): PhotoAlbum | undefined {
+  return photoAlbums.find((a) => a.slug === slug);
+}
+
+export function getAllVideos(): VideoPost[] {
+  return [...videos].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+}
 
 export function getAllNews(): NewsArticle[] {
   return news.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
@@ -132,6 +148,26 @@ export function getArchiveNewsByDate(date: string, page = 1, perPage = 12): Pagi
   const filtered = news
     .filter((n) => n.publishedAt.startsWith(date))
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return paginate(filtered, page, perPage);
+}
+
+export function getArchiveNewsByDateRange(
+  from: string | undefined,
+  to: string | undefined,
+  page = 1,
+  perPage = 12
+): PaginatedResult<NewsArticle> {
+  let filtered = [...news];
+  if (from) {
+    const fromDate = new Date(from);
+    filtered = filtered.filter((n) => new Date(n.publishedAt) >= fromDate);
+  }
+  if (to) {
+    const toDate = new Date(to);
+    toDate.setHours(23, 59, 59, 999);
+    filtered = filtered.filter((n) => new Date(n.publishedAt) <= toDate);
+  }
+  filtered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   return paginate(filtered, page, perPage);
 }
 

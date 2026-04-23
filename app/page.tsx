@@ -2,8 +2,14 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/news/HeroSection';
 import CategorySection from '@/components/news/CategorySection';
+import PhotoGallerySection from '@/components/news/PhotoGallerySection';
+import VideoGallerySection from '@/components/news/VideoGallerySection';
+import { getAllPhotoAlbums, getAllVideos } from '@/lib/data';
 
 export default function HomePage() {
+  const photoAlbums = getAllPhotoAlbums();
+  const videos = getAllVideos();
+
   return (
     <>
       <Header />
@@ -63,6 +69,12 @@ export default function HomePage() {
               <CategorySection categorySlug="opinion" variant="stacked-cards" titleOverride="মতামত" count={2} />
               <CategorySection categorySlug="opinion" variant="titles-only" titleOverride="সাহিত্য" newsOffset={4} count={8} />
               <CategorySection categorySlug="national" variant="image-left-list" titleOverride="ধর্ম" newsOffset={10} count={5} />
+            </div>
+
+            {/* Row 6: ফটো গ্যালারি | ভিডিও গ্যালারি */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+              <PhotoGallerySection albums={photoAlbums} />
+              <VideoGallerySection videos={videos} />
             </div>
           </div>
         </div>

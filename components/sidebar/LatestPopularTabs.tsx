@@ -6,7 +6,7 @@ import { getTrendingNews, getLatestNews } from '@/lib/data';
 import { toBanglaDigits } from '@/lib/bangla';
 import BangladeshDivisionMap from './BangladeshDivisionMap';
 
-export default function LatestPopularTabs() {
+export default function LatestPopularTabs({ showMap = true }: { showMap?: boolean } = {}) {
   const [activeTab, setActiveTab] = useState<'latest' | 'popular'>('latest');
   const latest = getLatestNews(1, 20).items;
   const popular = getTrendingNews(20);
@@ -83,9 +83,11 @@ export default function LatestPopularTabs() {
       </div>
 
       {/* Bangladesh map with divisions */}
-      <div className="mt-6">
-        <BangladeshDivisionMap />
-      </div>
+      {showMap && (
+        <div className="mt-6">
+          <BangladeshDivisionMap />
+        </div>
+      )}
     </div>
   );
 }

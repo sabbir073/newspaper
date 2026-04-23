@@ -2,24 +2,19 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import type { Category } from '@/lib/types';
 
 interface SearchInputProps {
   defaultValue: string;
-  categories: Category[];
-  searchParams: Record<string, string | undefined>;
 }
 
-export default function SearchInput({ defaultValue, categories, searchParams }: SearchInputProps) {
+export default function SearchInput({ defaultValue }: SearchInputProps) {
   const router = useRouter();
   const [query, setQuery] = useState(defaultValue);
-  const [category, setCategory] = useState(searchParams.category || '');
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const params = new URLSearchParams();
     if (query) params.set('q', query);
-    if (category) params.set('category', category);
     router.push(`/search?${params.toString()}`);
   }
 
@@ -48,24 +43,10 @@ export default function SearchInput({ defaultValue, categories, searchParams }: 
         </div>
         <button
           type="submit"
-          className="px-5 py-3 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors whitespace-nowrap"
+          className="px-5 py-3 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors whitespace-nowrap cursor-pointer"
         >
           খুঁজুন
         </button>
-      </div>
-      <div className="mt-3">
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="px-3 py-2 text-sm rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent/20"
-        >
-          <option value="">সকল বিভাগ</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.slug}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
       </div>
     </form>
   );

@@ -13,11 +13,11 @@ import MobileNav from './MobileNav';
 const SOCIAL_LINKS = [
   { name: 'ইউটিউব', icon: 'youtube', href: 'https://youtube.com', color: '#FF0000' },
   { name: 'ফেসবুক', icon: 'facebook', href: 'https://facebook.com', color: '#1877F2' },
-  { name: 'এক্স (সাবেক টুইটার)', icon: 'x', href: 'https://x.com', color: '#000000' },
+  { name: 'এক্স (সাবেক টুইটার)', icon: 'x', href: 'https://x.com', color: '' },
   { name: 'লিংকডইন', icon: 'linkedin', href: 'https://linkedin.com', color: '#0A66C2' },
   { name: 'ইনস্টাগ্রাম', icon: 'instagram', href: 'https://instagram.com', color: '#E4405F' },
-  { name: 'টিকটক', icon: 'tiktok', href: 'https://tiktok.com', color: '#000000' },
-  { name: 'থ্রেডস', icon: 'threads', href: 'https://threads.net', color: '#000000' },
+  { name: 'টিকটক', icon: 'tiktok', href: 'https://tiktok.com', color: '' },
+  { name: 'থ্রেডস', icon: 'threads', href: 'https://threads.net', color: '' },
   { name: 'টেলিগ্রাম', icon: 'telegram', href: 'https://t.me', color: '#26A5E4' },
   { name: 'পিন্টারেস্ট', icon: 'pinterest', href: 'https://pinterest.com', color: '#BD081C' },
   { name: 'রেডিট', icon: 'reddit', href: 'https://reddit.com', color: '#FF4500' },
@@ -196,7 +196,7 @@ export default function Header() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-background-tertiary transition-colors"
                   >
-                    <span style={{ color: link.color }}>
+                    <span className={link.color ? '' : 'text-foreground'} style={link.color ? { color: link.color } : undefined}>
                       <SocialIcon icon={link.icon} className="w-4 h-4" />
                     </span>
                     <span className="text-sm text-foreground">{link.name}</span>

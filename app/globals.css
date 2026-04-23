@@ -138,7 +138,7 @@
 .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
 .prose-bangla {
-  font-size: 1.0625rem;
+  font-size: var(--article-fs, 19px);
   line-height: 1.9;
 }
 .prose-bangla p { margin-bottom: 1.25em; }

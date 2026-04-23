@@ -1,0 +1,68 @@
+[
+  {
+    "id": "album-1",
+    "slug": "pohela-boishakh-celebration-2026",
+    "title": "পহেলা বৈশাখ উদযাপন ২০২৬: বর্ণিল আয়োজনে মেতেছে রাজধানী",
+    "coverImage": "https://picsum.photos/seed/album1-cover/1200/675",
+    "images": [
+      { "url": "https://picsum.photos/seed/album1-1/1200/675", "caption": "মঙ্গল শোভাযাত্রায় হাজারো মানুষের ঢল" },
+      { "url": "https://picsum.photos/seed/album1-2/1200/675", "caption": "রমনা বটমূলে বর্ষবরণ অনুষ্ঠান" },
+      { "url": "https://picsum.photos/seed/album1-3/1200/675", "caption": "শিশুদের মুখে আঁকা ঐতিহ্যবাহী চিত্র" },
+      { "url": "https://picsum.photos/seed/album1-4/1200/675", "caption": "বৈশাখী মেলায় হস্তশিল্প প্রদর্শনী" },
+      { "url": "https://picsum.photos/seed/album1-5/1200/675", "caption": "ঐতিহ্যবাহী পোশাকে তরুণ-তরুণীরা" }
+    ],
+    "publishedAt": "2026-04-14T10:00:00Z"
+  },
+  {
+    "id": "album-2",
+    "slug": "padma-bridge-rail-link-opening",
+    "title": "পদ্মা সেতু রেল সংযোগ উদ্বোধন: ঐতিহাসিক মুহূর্তের ছবি",
+    "coverImage": "https://picsum.photos/seed/album2-cover/1200/675",
+    "images": [
+      { "url": "https://picsum.photos/seed/album2-1/1200/675" },
+      { "url": "https://picsum.photos/seed/album2-2/1200/675" },
+      { "url": "https://picsum.photos/seed/album2-3/1200/675" },
+      { "url": "https://picsum.photos/seed/album2-4/1200/675" }
+    ],
+    "publishedAt": "2026-04-10T14:00:00Z"
+  },
+  {
+    "id": "album-3",
+    "slug": "cox-bazar-beach-festival",
+    "title": "কক্সবাজার সমুদ্র সৈকত উৎসব: পর্যটকদের ভিড়",
+    "coverImage": "https://picsum.photos/seed/album3-cover/1200/675",
+    "images": [
+      { "url": "https://picsum.photos/seed/album3-1/1200/675" },
+      { "url": "https://picsum.photos/seed/album3-2/1200/675" },
+      { "url": "https://picsum.photos/seed/album3-3/1200/675" }
+    ],
+    "publishedAt": "2026-04-08T12:00:00Z"
+  },
+  {
+    "id": "album-4",
+    "slug": "dhaka-book-fair-2026",
+    "title": "ঢাকা বইমেলা ২০২৬: বইপ্রেমীদের মিলনমেলা",
+    "coverImage": "https://picsum.photos/seed/album4-cover/1200/675",
+    "images": [
+      { "url": "https://picsum.photos/seed/album4-1/1200/675" },
+      { "url": "https://picsum.photos/seed/album4-2/1200/675" },
+      { "url": "https://picsum.photos/seed/album4-3/1200/675" },
+      { "url": "https://picsum.photos/seed/album4-4/1200/675" }
+    ],
+    "publishedAt": "2026-04-05T10:00:00Z"
+  },
+  {
+    "id": "album-5",
+    "slug": "sundarbans-wildlife-photography",
+    "title": "সুন্দরবনের বন্যপ্রাণীর অপূর্ব ছবি",
+    "coverImage": "https://picsum.photos/seed/album5-cover/1200/675",
+    "images": [
+      { "url": "https://picsum.photos/seed/album5-1/1200/675" },
+      { "url": "https://picsum.photos/seed/album5-2/1200/675" },
+      { "url": "https://picsum.photos/seed/album5-3/1200/675" },
+      { "url": "https://picsum.photos/seed/album5-4/1200/675" },
+      { "url": "https://picsum.photos/seed/album5-5/1200/675" }
+    ],
+    "publishedAt": "2026-04-02T09:00:00Z"
+  }
+]
