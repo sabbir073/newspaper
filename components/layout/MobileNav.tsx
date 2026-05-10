@@ -12,7 +12,7 @@ interface MobileNavProps {
 const MEGA_MENU_CATEGORIES = [
   { name: 'জাতীয়', href: '/category/national' },
   { name: 'রাজনীতি', href: '/category/politics' },
-  { name: 'সারাদেশ', href: '/latest' },
+  { name: 'সারাদেশ', href: '/category/national' },
   { name: 'অপরাধ', href: '/category/national' },
   { name: 'আইন-আদালত', href: '/category/politics' },
   { name: 'প্রবাস', href: '/category/international' },
@@ -21,27 +21,27 @@ const MEGA_MENU_CATEGORIES = [
   { name: 'অর্থনীতি', href: '/category/business' },
   { name: 'খেলা', href: '/category/sports' },
   { name: 'বিনোদন', href: '/category/entertainment' },
-  { name: 'লাইফস্টাইল', href: '/latest' },
-  { name: 'রূপচর্চা', href: '/latest' },
-  { name: 'স্বাস্থ্য', href: '/latest' },
-  { name: 'চিকিৎসা', href: '/latest' },
+  { name: 'লাইফস্টাইল', href: '/category/entertainment' },
+  { name: 'রূপচর্চা', href: '/category/entertainment' },
+  { name: 'স্বাস্থ্য', href: '/category/national' },
+  { name: 'চিকিৎসা', href: '/category/national' },
   { name: 'পর্যটন', href: '/category/business' },
-  { name: 'শিক্ষা', href: '/latest' },
+  { name: 'শিক্ষা', href: '/category/national' },
   { name: 'প্রযুক্তি', href: '/category/technology' },
-  { name: 'সাহিত্য', href: '/latest' },
-  { name: 'গণমাধ্যম', href: '/latest' },
-  { name: 'ফিচার', href: '/latest' },
-  { name: 'ফেবু লিখন', href: '/latest' },
-  { name: 'ভ্রমণ গদ্য', href: '/latest' },
-  { name: 'ওয়াইল্ডলাইফ', href: '/latest' },
-  { name: 'ভিন্নরকম', href: '/latest' },
-  { name: 'ধর্ম', href: '/latest' },
+  { name: 'সাহিত্য', href: '/category/opinion' },
+  { name: 'গণমাধ্যম', href: '/category/technology' },
+  { name: 'ফিচার', href: '/category/opinion' },
+  { name: 'ফেবু লিখন', href: '/category/opinion' },
+  { name: 'ভ্রমণ গদ্য', href: '/category/opinion' },
+  { name: 'ওয়াইল্ডলাইফ', href: '/category/national' },
+  { name: 'ভিন্নরকম', href: '/category/national' },
+  { name: 'ধর্ম', href: '/category/national' },
   { name: 'মতামত', href: '/category/opinion' },
-  { name: 'বিজ্ঞপ্তি', href: '/latest' },
-  { name: 'বিজ্ঞাপন', href: '/latest' },
+  { name: 'বিজ্ঞপ্তি', href: '/category/national' },
+  { name: 'বিজ্ঞাপন', href: '/advertisement' },
   { name: 'সর্বশেষ', href: '/latest' },
-  { name: 'ছবি', href: '/latest' },
-  { name: 'ভিডিও', href: '/latest' },
+  { name: 'ছবি', href: '/photo-gallery' },
+  { name: 'ভিডিও', href: '/video-gallery' },
 ];
 
 const SOCIAL_ICONS = [
@@ -161,12 +161,14 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
 
               {/* Utility links */}
               <div className="grid grid-cols-2 gap-x-6 gap-y-2 pt-4 border-t border-border">
-                <Link href="/" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">আমাদের সম্পর্কে</Link>
-                <Link href="/" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">বিজ্ঞাপন</Link>
-                <Link href="/" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">শর্তাবলি ও নীতিমালা</Link>
-                <Link href="/" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">গোপনীয়তা নীতি</Link>
-                <Link href="/" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">যোগাযোগ</Link>
+                <Link href="/about" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">আমাদের সম্পর্কে</Link>
+                <Link href="/advertisement" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">বিজ্ঞাপন</Link>
+                <Link href="/terms" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">শর্তাবলি ও নীতিমালা</Link>
+                <Link href="/privacy" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">গোপনীয়তা নীতি</Link>
+                <Link href="/contact" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">যোগাযোগ</Link>
+                <Link href="/unicode-converter" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">ইউনিকোড কনভার্টার</Link>
                 <Link href="/search" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">অনুসন্ধান</Link>
+                <Link href="/archive" onClick={onClose} className="text-base text-foreground hover:text-accent py-1.5 transition-colors">আর্কাইভ</Link>
               </div>
             </div>
           </div>

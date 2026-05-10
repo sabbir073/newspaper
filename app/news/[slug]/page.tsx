@@ -8,8 +8,9 @@ import Breadcrumb from '@/components/ui/Breadcrumb';
 import NewsCardMedium from '@/components/news/NewsCardMedium';
 import ArticleBody from '@/components/news/ArticleBody';
 import ArticleToolbar from '@/components/news/ArticleToolbar';
+import ReadingProgress from '@/components/news/ReadingProgress';
 import LatestPopularTabs from '@/components/sidebar/LatestPopularTabs';
-import { getNewsBySlug, getAllCategories, getAuthorById, getRelatedNews, getAllNews } from '@/lib/data';
+import { getNewsBySlug, getAllCategories, getAuthorById, getRelatedNews, getAllNews, getAdjacentNews } from '@/lib/data';
 import { formatBanglaDateShort, estimateReadTime, toBanglaDigits } from '@/lib/bangla';
 import { SITE_NAME } from '@/lib/constants';
 
@@ -25,9 +26,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = getNewsBySlug(slug);
   if (!article) return {};
+  const title = `${article.title} — ${SITE_NAME}`;
   return {
-    title: `${article.title} — ${SITE_NAME}`,
+    title,
     description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      type: 'article',
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+      tags: article.tags,
+      siteName: SITE_NAME,
+      locale: 'bn_BD',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt,
+    },
   };
 }
 
@@ -49,10 +66,12 @@ export default async function SingleNewsPage({ params }: Props) {
   const category = categories.find((c) => c.id === article.categoryId);
   const author = getAuthorById(article.authorId);
   const related = getRelatedNews(article, 6);
+  const { prev, next } = getAdjacentNews(article);
 
   return (
     <>
       <Header />
+      <ReadingProgress targetId="article-body" />
       <main className="flex-1">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <Breadcrumb
@@ -92,15 +111,20 @@ export default async function SingleNewsPage({ params }: Props) {
                 <div className="hidden md:flex items-center justify-between gap-x-4 gap-y-3">
                   <div className="flex items-center gap-x-4 text-[15px] text-foreground-muted">
                     {author && (
-                      <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-full bg-accent/10 text-accent flex items-center justify-center text-base font-bold">
+                      <Link
+                        href={`/author/${author.id}`}
+                        className="flex items-center gap-3 group/author"
+                      >
+                        <div className="w-11 h-11 rounded-full bg-accent/10 text-accent flex items-center justify-center text-base font-bold group-hover/author:bg-accent/20 transition-colors">
                           {author.name[0]}
                         </div>
                         <div className="leading-tight">
-                          <div className="font-semibold text-foreground text-[16px]">{author.name}</div>
+                          <div className="font-semibold text-foreground text-[16px] group-hover/author:text-accent transition-colors">
+                            {author.name}
+                          </div>
                           <div className="text-sm">{author.role}</div>
                         </div>
-                      </div>
+                      </Link>
                     )}
 
                     <span className="h-10 w-px bg-border" aria-hidden="true" />
@@ -130,6 +154,16 @@ export default async function SingleNewsPage({ params }: Props) {
                       </svg>
                       {estimateReadTime(article.body)}
                     </span>
+
+                    <span className="h-10 w-px bg-border" aria-hidden="true" />
+
+                    <span className="flex items-center gap-1.5 text-[15px]" title="বার পঠিত">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      {toBanglaDigits(article.viewCount)} পঠিত
+                    </span>
                   </div>
 
                   <ArticleToolbar
@@ -145,15 +179,17 @@ export default async function SingleNewsPage({ params }: Props) {
                 <div className="md:hidden space-y-4">
                   {/* Author row */}
                   {author && (
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-12 h-12 shrink-0 rounded-full bg-accent/10 text-accent flex items-center justify-center text-lg font-bold">
+                    <Link href={`/author/${author.id}`} className="flex items-center gap-3 min-w-0 group/author">
+                      <div className="w-12 h-12 shrink-0 rounded-full bg-accent/10 text-accent flex items-center justify-center text-lg font-bold group-hover/author:bg-accent/20 transition-colors">
                         {author.name[0]}
                       </div>
                       <div className="leading-tight min-w-0">
-                        <div className="font-semibold text-foreground text-[17px] truncate">{author.name}</div>
+                        <div className="font-semibold text-foreground text-[17px] truncate group-hover/author:text-accent transition-colors">
+                          {author.name}
+                        </div>
                         <div className="text-sm text-foreground-muted truncate">{author.role}</div>
                       </div>
-                    </div>
+                    </Link>
                   )}
 
                   {/* Date + read time stack */}
@@ -177,6 +213,13 @@ export default async function SingleNewsPage({ params }: Props) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <span>{estimateReadTime(article.body)}</span>
+                    </span>
+                    <span className="flex items-start gap-2">
+                      <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      <span>{toBanglaDigits(article.viewCount)} বার পঠিত</span>
                     </span>
                   </div>
 
@@ -271,6 +314,49 @@ export default async function SingleNewsPage({ params }: Props) {
                     ))}
                   </div>
                 </section>
+              )}
+
+              {/* Prev / Next article navigation */}
+              {(prev || next) && (
+                <nav
+                  className="mt-10 pt-6 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-3"
+                  aria-label="পূর্ববর্তী ও পরবর্তী সংবাদ"
+                >
+                  {prev ? (
+                    <Link
+                      href={`/news/${prev.slug}`}
+                      className="group rounded-xl border border-border bg-card p-4 hover:-translate-y-0.5 hover:shadow-lg hover:border-accent/40 transition-all"
+                    >
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground-muted uppercase tracking-wide mb-1.5">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        পূর্ববর্তী
+                      </div>
+                      <h3 className="text-[15px] sm:text-base font-semibold text-foreground line-clamp-2 group-hover:text-accent transition-colors">
+                        {prev.title}
+                      </h3>
+                    </Link>
+                  ) : (
+                    <div />
+                  )}
+                  {next ? (
+                    <Link
+                      href={`/news/${next.slug}`}
+                      className="group rounded-xl border border-border bg-card p-4 hover:-translate-y-0.5 hover:shadow-lg hover:border-accent/40 transition-all sm:text-right"
+                    >
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground-muted uppercase tracking-wide mb-1.5 sm:justify-end">
+                        পরবর্তী
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-[15px] sm:text-base font-semibold text-foreground line-clamp-2 group-hover:text-accent transition-colors">
+                        {next.title}
+                      </h3>
+                    </Link>
+                  ) : null}
+                </nav>
               )}
             </article>
 

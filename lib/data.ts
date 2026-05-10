@@ -136,6 +136,29 @@ export function getAuthorById(id: string): Author | undefined {
   return authors.find((a) => a.id === id);
 }
 
+export function getAllAuthors(): Author[] {
+  return authors;
+}
+
+export function getNewsByAuthor(authorId: string, page = 1, perPage = 12): PaginatedResult<NewsArticle> {
+  const filtered = news
+    .filter((n) => n.authorId === authorId)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return paginate(filtered, page, perPage);
+}
+
+export function getAdjacentNews(article: NewsArticle): { prev?: NewsArticle; next?: NewsArticle } {
+  const sameCat = news
+    .filter((n) => n.categoryId === article.categoryId)
+    .sort((a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime());
+  const idx = sameCat.findIndex((n) => n.id === article.id);
+  if (idx === -1) return {};
+  return {
+    prev: idx > 0 ? sameCat[idx - 1] : undefined,
+    next: idx < sameCat.length - 1 ? sameCat[idx + 1] : undefined,
+  };
+}
+
 export function getArchiveDates(): string[] {
   const dates = new Set<string>();
   news.forEach((n) => {

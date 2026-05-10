@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif_Bengali } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 const notoSerifBengali = Noto_Serif_Bengali({
@@ -11,9 +12,29 @@ const notoSerifBengali = Noto_Serif_Bengali({
 });
 
 export const metadata: Metadata = {
-  title: "দৈনিক প্রতিদিন — বাংলাদেশের আধুনিক অনলাইন সংবাদপত্র",
-  description:
-    "দৈনিক প্রতিদিন — বাংলাদেশের সবচেয়ে আধুনিক ও বিশ্বস্ত অনলাইন সংবাদপত্র। জাতীয়, আন্তর্জাতিক, খেলা, বিনোদন, প্রযুক্তি ও আরও অনেক খবর পড়ুন।",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
+    locale: "bn_BD",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+  },
+  alternates: {
+    types: {
+      "application/rss+xml": [{ url: "/rss.xml", title: SITE_NAME }],
+    },
+  },
 };
 
 export default function RootLayout({

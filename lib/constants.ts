@@ -1,6 +1,7 @@
 export const SITE_NAME = 'দৈনিক প্রতিদিন';
 export const SITE_TAGLINE = 'বাংলাদেশের আধুনিক অনলাইন সংবাদপত্র';
 export const SITE_DESCRIPTION = 'দৈনিক প্রতিদিন — বাংলাদেশের সবচেয়ে আধুনিক ও বিশ্বস্ত অনলাইন সংবাদপত্র। জাতীয়, আন্তর্জাতিক, খেলা, বিনোদন, প্রযুক্তি ও আরও অনেক খবর পড়ুন।';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://protidin.com';
 
 export const PER_PAGE = 12;
 
