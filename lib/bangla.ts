@@ -13,6 +13,10 @@ export function toBanglaDigits(value: string | number): string {
   return String(value).replace(/[0-9]/g, (d) => banglaDigits[parseInt(d)]);
 }
 
+export function formatBanglaNumber(value: number): string {
+  return toBanglaDigits(value.toLocaleString('en-US'));
+}
+
 export function formatBanglaDate(dateStr: Date | string): string {
   const date = typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
   const day = toBanglaDigits(date.getDate());

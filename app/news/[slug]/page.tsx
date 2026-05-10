@@ -11,7 +11,7 @@ import ArticleToolbar from '@/components/news/ArticleToolbar';
 import ReadingProgress from '@/components/news/ReadingProgress';
 import LatestPopularTabs from '@/components/sidebar/LatestPopularTabs';
 import { getNewsBySlug, getAllCategories, getAuthorById, getRelatedNews, getAllNews, getAdjacentNews } from '@/lib/data';
-import { formatBanglaDateShort, estimateReadTime, toBanglaDigits } from '@/lib/bangla';
+import { formatBanglaDateShort, estimateReadTime, toBanglaDigits, formatBanglaNumber } from '@/lib/bangla';
 import { SITE_NAME } from '@/lib/constants';
 
 type Props = {
@@ -105,127 +105,87 @@ export default async function SingleNewsPage({ params }: Props) {
                 {article.excerpt}
               </p>
 
-              {/* Meta info — two layouts: desktop single-row, mobile stacked */}
-              <div className="mb-5 pb-5 border-b border-border">
-                {/* DESKTOP (md+): single row, tools on the right */}
-                <div className="hidden md:flex items-center justify-between gap-x-4 gap-y-3">
-                  <div className="flex items-center gap-x-4 text-[15px] text-foreground-muted">
-                    {author && (
-                      <Link
-                        href={`/author/${author.id}`}
-                        className="flex items-center gap-3 group/author"
-                      >
-                        <div className="w-11 h-11 rounded-full bg-accent/10 text-accent flex items-center justify-center text-base font-bold group-hover/author:bg-accent/20 transition-colors">
-                          {author.name[0]}
-                        </div>
-                        <div className="leading-tight">
-                          <div className="font-semibold text-foreground text-[16px] group-hover/author:text-accent transition-colors">
-                            {author.name}
-                          </div>
-                          <div className="text-sm">{author.role}</div>
-                        </div>
-                      </Link>
-                    )}
-
-                    <span className="h-10 w-px bg-border" aria-hidden="true" />
-
-                    <div className="flex flex-col leading-tight gap-1">
-                      <span className="flex items-center gap-1.5 text-[15px]">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span>প্রকাশ: {formatBanglaDateShort(article.publishedAt)}, {formatBanglaTime(article.publishedAt)}</span>
-                      </span>
-                      {article.updatedAt && (
-                        <span className="flex items-center gap-1.5 text-[15px]">
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                          </svg>
-                          <span>সর্বশেষ সংস্করণ: {formatBanglaDateShort(article.updatedAt)}, {formatBanglaTime(article.updatedAt)}</span>
-                        </span>
-                      )}
+              {/* ── Identity & meta — single horizontal row, wraps on small screens ── */}
+              <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] text-foreground-muted">
+                {/* Author */}
+                {author && (
+                  <Link
+                    href={`/author/${author.id}`}
+                    className="inline-flex items-center gap-2.5 min-w-0 group/author"
+                  >
+                    <div className="w-9 h-9 shrink-0 rounded-full bg-accent/10 text-accent flex items-center justify-center text-base font-bold group-hover/author:bg-accent/20 transition-colors">
+                      {author.name[0]}
                     </div>
-
-                    <span className="h-10 w-px bg-border" aria-hidden="true" />
-
-                    <span className="flex items-center gap-1.5 text-[15px]">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {estimateReadTime(article.body)}
+                    <span className="font-semibold text-foreground text-[15px] group-hover/author:text-accent transition-colors whitespace-nowrap">
+                      {author.name}
                     </span>
-
-                    <span className="h-10 w-px bg-border" aria-hidden="true" />
-
-                    <span className="flex items-center gap-1.5 text-[15px]" title="বার পঠিত">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                      {toBanglaDigits(article.viewCount)} পঠিত
+                    <span className="text-foreground-muted whitespace-nowrap">
+                      · {author.role}
                     </span>
+                  </Link>
+                )}
+
+                <span className="text-border-strong" aria-hidden="true">·</span>
+
+                <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  প্রকাশ: {formatBanglaDateShort(article.publishedAt)}, {formatBanglaTime(article.publishedAt)}
+                </span>
+
+                {article.updatedAt && (
+                  <>
+                    <span className="text-border-strong" aria-hidden="true">·</span>
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      সর্বশেষ: {formatBanglaDateShort(article.updatedAt)}, {formatBanglaTime(article.updatedAt)}
+                    </span>
+                  </>
+                )}
+
+                <span className="text-border-strong" aria-hidden="true">·</span>
+
+                <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {estimateReadTime(article.body)}
+                </span>
+
+                <span className="text-border-strong" aria-hidden="true">·</span>
+
+                <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  {formatBanglaNumber(article.viewCount)} বার পঠিত
+                </span>
+              </div>
+
+              {/* ── Action bar: share + tools ── */}
+              <div className="mb-6 pb-6 border-b border-border">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-3 sm:px-4 py-2.5 rounded-xl bg-background-secondary border border-border">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-foreground-muted shrink-0 hidden sm:inline">
+                      শেয়ার
+                    </span>
+                    <ArticleToolbar
+                      title={article.title}
+                      subtitle={article.excerpt}
+                      body={article.body}
+                      compact
+                      shareOnly
+                    />
                   </div>
-
-                  <ArticleToolbar
-                    title={article.title}
-                    subtitle={article.excerpt}
-                    body={article.body}
-                    compact
-                    toolsOnly
-                  />
-                </div>
-
-                {/* MOBILE (< md): author row | info row | tools row */}
-                <div className="md:hidden space-y-4">
-                  {/* Author row */}
-                  {author && (
-                    <Link href={`/author/${author.id}`} className="flex items-center gap-3 min-w-0 group/author">
-                      <div className="w-12 h-12 shrink-0 rounded-full bg-accent/10 text-accent flex items-center justify-center text-lg font-bold group-hover/author:bg-accent/20 transition-colors">
-                        {author.name[0]}
-                      </div>
-                      <div className="leading-tight min-w-0">
-                        <div className="font-semibold text-foreground text-[17px] truncate group-hover/author:text-accent transition-colors">
-                          {author.name}
-                        </div>
-                        <div className="text-sm text-foreground-muted truncate">{author.role}</div>
-                      </div>
-                    </Link>
-                  )}
-
-                  {/* Date + read time stack */}
-                  <div className="grid grid-cols-1 gap-2 text-[15px] text-foreground-muted">
-                    <span className="flex items-start gap-2">
-                      <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span>প্রকাশ: {formatBanglaDateShort(article.publishedAt)}, {formatBanglaTime(article.publishedAt)}</span>
+                  <span className="hidden sm:block w-px h-6 bg-border" aria-hidden="true" />
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-foreground-muted shrink-0 hidden sm:inline">
+                      টুলস
                     </span>
-                    {article.updatedAt && (
-                      <span className="flex items-start gap-2">
-                        <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                        <span>সর্বশেষ: {formatBanglaDateShort(article.updatedAt)}, {formatBanglaTime(article.updatedAt)}</span>
-                      </span>
-                    )}
-                    <span className="flex items-start gap-2">
-                      <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>{estimateReadTime(article.body)}</span>
-                    </span>
-                    <span className="flex items-start gap-2">
-                      <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                      <span>{toBanglaDigits(article.viewCount)} বার পঠিত</span>
-                    </span>
-                  </div>
-
-                  {/* Tools row — full-width card */}
-                  <div className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-background-secondary border border-border">
-                    <span className="text-[15px] font-semibold text-foreground-secondary shrink-0">টুলস</span>
                     <ArticleToolbar
                       title={article.title}
                       subtitle={article.excerpt}
